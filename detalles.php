@@ -22,7 +22,33 @@
                 <td>
                 	<h4>Género:</h4>
 					<h4>Año:</h4>
-					<h4>Calificación:</h4></td>
+					<h4>Calificación:</h4> 
+                     <form id="calif">
+                        <p class="clasificacion">
+                            <button type="submit" class="btn btn-danger">Calificar</button>
+                               <input id="radio1" type="radio" name="estrellas" value="10"><!--
+                            --><label for="radio1">★</label><!--
+                            --><input id="radio2" type="radio" name="estrellas" value="9"><!--
+                            --><label for="radio2">★</label><!--
+                            --><input id="radio3" type="radio" name="estrellas" value="8"><!--
+                            --><label for="radio3">★</label><!--
+                            --><input id="radio4" type="radio" name="estrellas" value="7"><!--
+                            --><label for="radio4">★</label><!--
+                            --><input id="radio5" type="radio" name="estrellas" value="6"><!--
+                            --><label for="radio5">★</label><!--
+                            --><input id="radio6" type="radio" name="estrellas" value="5"><!--
+                            --><label for="radio6">★</label><!--
+                            --><input id="radio7" type="radio" name="estrellas" value="4"><!--
+                            --><label for="radio7">★</label><!--
+                            --><input id="radio8" type="radio" name="estrellas" value="3"><!--
+                            --><label for="radio8">★</label><!--
+                            --><input id="radio9" type="radio" name="estrellas" value="2"><!--
+                            --><label for="radio9">★</label><!--
+                            --><input id="radio10" type="radio" name="estrellas" value="1"><!--
+                            --><label for="radio10">★</label>
+
+                          </p>
+                        </form></td>
             </tr>
             <tr>
                 <td>
@@ -31,19 +57,6 @@
                 
                 		Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga 
                	</td>
-            </tr>
-            <tr>
-            	<td>
-					<div class="star-rating">
-					<h5>Calificar:
-					    <a href="#">&#9733;</a>
-					    <a href="#">&#9733;</a>
-					    <a href="#">&#9733;</a>
-					    <a href="#">&#9733;</a>
-    					<a href="#">&#9733;</a>
-    					</h5>
-					</div>
-            	</td>
             </tr>
             </table>
 

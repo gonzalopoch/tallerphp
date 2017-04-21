@@ -24,7 +24,7 @@
 				<p>SinopsisSinopsisSinopsisSinopsisSinopsisSinopsisSinopsisSinopsis SinopsisSinopsisSinopsisSinopsisSinopsisSinopsis SinopsisSinopsisSinopsisSinopsis SinopsisSinopsisSinopsisSinopsisSinopsisSinopsis SinopsisSinopsisSinopsisSinopsisSinopsis SinopsisSinopsisSinopsis SinopsisSinopsisSinopsisSinopsisS inopsisSinopsisSinopsisSinopsisSinopsis SinopsisSinopsisSinopsisSinopsis SinopsisSinopsisSinopsisSinopsis SinopsisSinopsisSinopsisSinopsisSinopsisSinopsisSinopsisSinopsis</p>
 			</td>
 			<td>
-			    <p><a href="detalles.php" class="btn btn-primary" role="button">Detalles</a></p>
+			    <p><a href="detalles.php" class="btn btn-danger" role="button">Detalles</a></p>
 			</td>
 		</tr>
 		<?php } ?>		
