@@ -26,6 +26,24 @@ form{
 	max-width: 100%;
 }
 
+.bderecha{
+	margin: 30px 30px 30px 530px;
+}
+
+label.inicios{
+	color: white;
+	margin: 30px 0px 0px 20px;
+}
+
+small.inicios{
+	color: white;
+	margin-left: 5px;
+}
+
+input.inicios{
+	margin: 0px 0px -10px 20px;
+}
+
 .imagenpeli{
 	
 	max-width: 150px;
