@@ -22,6 +22,12 @@ form{
  	margin: 0 auto; /*Centrar div*/
 }
 
+.panelcomen{
+	background: rgba(0,0,0,.8);
+	width: 70%; /* Ancho al 50% de la pagina*/
+ 	margin: 0 auto; /*Centrar div*/
+}
+
 .table-hover{
 	max-width: 100%;
 }
@@ -45,21 +51,27 @@ input.inicios{
 }
 
 .imagenpeli{
-	
 	max-width: 150px;
 }
+
+.imagenpelicelda{
+	align-content: center;
+}
+
 .imagenpelidet {
-	max-width: 350px;
+	max-width: 200px;
+	margin-top: 0;
+	margin-left: 25;
 }
 .clasificacion{
 	align-content: center;
 }
 .titulocoments{
-	color: black;
+	color: white;
 
 }
 .comentarios{
-	color:black;
+	color:white;
 }
 .star-rating{
 	color:yellow;
