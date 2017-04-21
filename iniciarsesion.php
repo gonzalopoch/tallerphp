@@ -24,7 +24,7 @@
 				</p> 
 				
 			</div>
-			<button type="submit" class="btn btn-default bderecha">Ingresar</button>
+			<button type="submit" class="btn btn-danger bderecha">Ingresar</button>
 		</form>
 	</div>
 </body>
