@@ -1,0 +1,48 @@
+.titulop{
+	font-size:100px;
+	color:white;
+}
+
+.navbar{
+	background-color: #000000;
+}
+body{
+	background-image: url('back.jpg');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover; 
+}
+form{
+	align-content: center;
+}
+
+.panel{
+	background: rgba(0,0,0,.8);
+	width: 50%; /* Ancho al 50% de la pagina*/
+ 	margin: 0 auto; /*Centrar div*/
+}
+
+.table-hover{
+	max-width: 100%;
+}
+
+.imagenpeli{
+	
+	max-width: 150px;
+}
+.imagenpelidet {
+	max-width: 350px;
+}
+.clasificacion{
+	align-content: center;
+}
+.titulocoments{
+	color: black;
+
+}
+.comentarios{
+	color:black;
+}
+.star-rating{
+	color:yellow;
+}
