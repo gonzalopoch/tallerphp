@@ -8,13 +8,24 @@
 		include ("menuinicio.php"); 
 		include ("connect.php");
 		$link = conectar();
-		$resultp = mysqli_query($link, "SELECT * FROM peliculas");
+		$criterio=$_GET["criterio"];
+		$resultp = mysqli_query($link, "SELECT * FROM peliculas ORDER BY $criterio ASC");
 		$cantpelis = mysqli_num_rows($resultp);
 	?>
 </head>
 <body>
 	<table class= "table table-hover">
+		<tr>
+			<form method="GET">
+			  	<select name="criterio">
+		    		<option value="anio">Año</option>
+ 					<option value="nombre">Nombre</option>
+		    	</select>
+		    	<button type="submit" class="btn btn-danger navbar-btn">Ordenar</button>
+		    </form>
+		</tr>
 	<?php 
+		echo "Ordenadas por $criterio.";
 		for ($i = 1; $i <=$cantpelis; $i++){ 
 			$row = mysqli_fetch_array($resultp);
 	?>
@@ -37,7 +48,7 @@
 				<h4><?php echo "Calificación" ?></h4>
 			</td>
 			<td width="600">
-				<p><?php echo $row['sinopsis']?></p>
+				<p align="justify"><b><?php echo $row['sinopsis']?></b></p>
 			</td>
 			<td>
 			   <?php
