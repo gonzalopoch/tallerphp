@@ -56,22 +56,57 @@ input.inicios{
 
 .imagenpelicelda{
 	align-content: center;
+	width: 290;
+	padding-right: 30px;
+	padding-bottom: 30px;
 }
 
 .imagenpelidet {
-	max-width: 200px;
-	margin-top: 0;
+	max-width: 250px;
+	margin-top: 25;
 	margin-left: 25;
 }
+.titulodetalle{
+	color:white;
+	
+
+}
+.celdatitulodet{  /*celda de la pagina .detalle con el titulo, genero etc, de la pelicula */
+padding-left: 20px;
+padding-bottom: 150px;
+
+color:white;
+}
+
+
 .clasificacion{
 	align-content: center;
 }
 .titulocoments{
 	color: white;
+	padding-left:20px;
+}
 
+.celdasinop{
+	padding: 30px;
+	
+}
+.sinopsisdet{
+	color:white;
+}
+.sinopsisdet1{
+	color:white;
 }
 .comentarios{
 	color:white;
+	padding-left: 20px;
+}
+.comentarios2{
+	padding-left:20px;
+	color:white;
+}
+.comentarios3{
+	padding-left:20px;
 }
 .star-rating{
 	color:yellow;
