@@ -8,7 +8,10 @@
 		include ("menuinicio.php"); 
 		include ("connect.php");
 		$link = conectar();
-		$criterio=$_GET["criterio"];
+		if (isset($_GET['criterio'])) 		//Pregunto si existe el parámetro $_GET
+			$criterio=$_GET["criterio"];  	// Asigno el parámetro a la variable $criterio
+		else 								//Si no existe el $_GET
+			$criterio = "nombre"; 			//Se agrega un criterio de orden por defecto, para cuando no existen parámetros. 
 		$resultp = mysqli_query($link, "SELECT * FROM peliculas ORDER BY $criterio ASC");
 		$cantpelis = mysqli_num_rows($resultp);
 	?>
@@ -25,12 +28,10 @@
 		    </form>
 		</tr>
 	<?php 
-		echo "Ordenadas por $criterio.";
 		for ($i = 1; $i <=$cantpelis; $i++){ 
-			$row = mysqli_fetch_array($resultp);
+			$row = mysqli_fetch_array($resultp); //Guardo en row la fila correspondiente a los datos de la siguiente película en el arreglo.
 	?>
 		<tr>
-				<!-- RECUPERAR DATOS DE PELICULA i, INCREMENTAR i -->
 			<td width="160" >
 				<?php echo '<img class="imagenpeli" src="data:image/jpeg;base64,'.base64_encode($row['contenidoimagen']) .'" />'; ?>
 			</td>
@@ -58,8 +59,8 @@
 			</td>
 		</tr>
 		<?php 
-			}
-			mysqli_close($link); 
+			} //Cierro el for de listar películas
+			mysqli_close($link); //Cierro la BDD
 		?>		
 	</table>
 
