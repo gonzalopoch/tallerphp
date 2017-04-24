@@ -2,8 +2,13 @@
 
 function conectar(){
 
-$link = mysqli_connect('localhost', 'root', '', 'grupo40') 
-	or die("Error" . mysqli_error($link));
+$server="localhost";
+$user = "root";
+$pass = "";
+$dbname = "grupo40";
+
+$link = mysqli_connect($server, $user, $pass, $dbname)
+	or die( . mysqli_error($link));
 
 return $link;
 
