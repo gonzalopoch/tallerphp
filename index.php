@@ -20,11 +20,11 @@
 	?>
 		<tr>
 				<!-- RECUPERAR DATOS DE PELICULA i, INCREMENTAR i -->
-			<td width="160">
-				<?php echo '<img src="data:image/jpeg;base64,'.base64_encode($row['contenidoimagen']) .'" />'; ?>
+			<td width="160" >
+				<?php echo '<img class="imagenpeli" src="data:image/jpeg;base64,'.base64_encode($row['contenidoimagen']) .'" />'; ?>
 			</td>
 			<td width="400">
-				<h1><?php echo $row['nombre'] ?> </h1>
+				<h2><?php echo $row['nombre'] ?> </h2>
 				<h4>
 					<?php 
 						$id_gen = $row['generos_id'];
