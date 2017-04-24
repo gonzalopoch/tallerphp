@@ -4,7 +4,13 @@
 		
 		<link href="css/bootstrap.min.css" rel="stylesheet">
 		<link type="text/css" rel="stylesheet" href="style.css">
-	<?php include ("menuinicio.php"); ?>
+	<?php include ("menuinicio.php"); 
+        include ("connect.php");
+        $id=$_GET['id'];
+        $link = conectar();
+        $resultp = mysqli_query($link, "SELECT * FROM peliculas WHERE id=$id");
+        $pelicula= mysqli_fetch_array($resultp);
+    ?>
 
 
 	</head>
@@ -16,7 +22,9 @@
                     	<img class="imagenpelidet" src="imagepelis/movies1.jpg" alt="imagen pelicula">
                     </td>
     				<td class="celdatitulodet">
-                        <h1 class="titulodetalle">Título Película </h1>
+                        <h1 class="titulodetalle"> <?php
+                        
+                         echo $pelicula['nombre'] ;?> </h1>
                     	
                         <p class="descripciondet">
                            <h4>Género:</h4>

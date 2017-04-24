@@ -40,7 +40,10 @@
 				<p><?php echo $row['sinopsis']?></p>
 			</td>
 			<td>
-			    <p><a href="detalles.php" class="btn btn-danger" role="button">Detalles</a></p>
+			   <?php
+			   		$id = $row['id'];
+			    	echo "<p><a href='detalles.php?id=$id' class='btn btn-danger'>Detalles</a></p>" ; 
+			    ?>
 			</td>
 		</tr>
 		<?php 
