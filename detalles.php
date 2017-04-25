@@ -6,10 +6,14 @@
 		<link type="text/css" rel="stylesheet" href="style.css">
 	<?php include ("menuinicio.php"); 
         include ("connect.php");
+        include ("promedio.php");
         $id=$_GET['id'];
         $link = conectar();
         $resultp = mysqli_query($link, "SELECT * FROM peliculas WHERE id=$id");
         $pelicula= mysqli_fetch_array($resultp);
+
+        $resultc=mysqli_query($link, "SELECT * FROM comentarios WHERE peliculas_id=$id ORDER BY fecha");
+        $cantcoment=mysqli_num_rows($resultc);
     ?>
 
 
@@ -19,7 +23,7 @@
     		<table> <!-- Lo cambiaremos por CSS -->
                 <tr>
                     <td class="imagenpelicelda" rowspan="1" >
-                    	<img class="imagenpelidet" src="imagepelis/movies1.jpg" alt="imagen pelicula">
+                    	<?php echo'<img class="imagenpelidet" src="data:image/jpeg;base64,'.base64_encode($pelicula['contenidoimagen']) .'" />'; ?>
                     </td>
     				<td class="celdatitulodet">
                         <h1 class="titulodetalle"> <?php
@@ -27,25 +31,27 @@
                          echo $pelicula['nombre'] ;?> </h1>
                     	
                         <p class="descripciondet">
-                           <h4>Género:</h4>
-                           <h4>Año de estreno:</h4>
-                           <h4>Calificación:</h4> 
+
+                           <h4><?php 
+                                $id_gen = $pelicula['generos_id'];
+                                 $resultg = mysqli_query($link, "SELECT * FROM generos WHERE id = $id_gen "); //Usar siempre comillas dobles cuando se agrega una variable PHP dentro de los parametros de un query, por ejemplo $id_gen en este caso.
+                                $genero = mysqli_fetch_array($resultg);
+                                echo $genero['genero'];
+                                ?> 
+                            </h4>
+                           <h4><?php echo $pelicula['anio']; ?></h4>
+                           <h4>Calificación:
+                                    <?php 
+                                        $prom=promedio($cantcoment,$id,$link);
+                                        echo $prom;
+                                    ?>  </h4> 
                          </p>
                              
-                        <form id="calif">
+                        <form id="calif" method="POST">
                             <p class="clasificacion">
                                 <button type="submit" class="btn btn-danger">Calificar</button>
-                                   <input id="radio1" type="radio" name="estrellas" value="10"><!--
-                                --><label for="radio1">★</label><!--
-                                --><input id="radio2" type="radio" name="estrellas" value="9"><!--
-                                --><label for="radio2">★</label><!--
-                                --><input id="radio3" type="radio" name="estrellas" value="8"><!--
-                                --><label for="radio3">★</label><!--
-                                --><input id="radio4" type="radio" name="estrellas" value="7"><!--
-                                --><label for="radio4">★</label><!--
-                                --><input id="radio5" type="radio" name="estrellas" value="6"><!--
-                                --><label for="radio5">★</label><!--
-                                --><input id="radio6" type="radio" name="estrellas" value="5"><!--
+                               
+                                <input id="radio6" type="radio" name="estrellas" value="5"><!--
                                 --><label for="radio6">★</label><!--
                                 --><input id="radio7" type="radio" name="estrellas" value="4"><!--
                                 --><label for="radio7">★</label><!--
@@ -65,24 +71,37 @@
                     	<h5 class="sinopsisdet"> Sinopsis: </h5>
     				
                             <p class="sinopsisdet1">
-                                Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga Esta es un sinopsis muy larga.  
+                                <?php echo $pelicula['sinopsis']; ?>
                             </p>
                     		
                    	</td>
                 </tr>
-                </table>
+                <?php
+                    
+
+
+                ?>
+
                 <table class="table table-condensed" >
                     <tr>
                     	<td>
+                            
                     		<h3 class="titulocoments"> Comentarios <h3>
                     	</td>
                     </tr>
                      </tr>
-                     <?php for ($i = 1; $i <=2; $i++){ ?>
+                     <?php for ($i = 1; $i <=$cantcoment; $i++){
+                             $comentario=mysqli_fetch_array($resultc);
+                             $userid=$comentario['usuarios_id'];
+                             $resultu=mysqli_query($link, "SELECT * FROM usuarios WHERE id=$userid");
+                             $usuario=mysqli_fetch_array($resultu);
+                      ?>
                     <tr >
                     	<td class="comentarios" >
-                    		<h4 class="comentarios3"> Fulanito <?php echo $i; ?> </h4>
-                    			<p class="comentarios2">Este es el comentario numero <?php echo $i; ?> del usuario fulanio<?php echo $i; ?> , y estoy haciendo esto para que sea mas largo y ver como queda.... asdasd asdqw eqwe qwe qw dasd asd asdas dasd assadasdasdasd
+                    		<h4 class="comentarios3">  <?php echo $usuario['nombreusuario']; ?> <small> <?php echo $comentario['fecha']; ?> </small> </h4>
+
+                    			<p class="comentarios2"> 
+                                    <?php echo $comentario['comentario'];?>
                     			</p>
                     	</td>
                     </tr>
