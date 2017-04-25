@@ -5,6 +5,7 @@
 		<link href="css/bootstrap.min.css" rel="stylesheet">
 		<link type="text/css" rel="stylesheet" href="style.css">
 	<?php 
+	 	include ("promedio.php");
 		include ("menuinicio.php"); 
 		include ("connect.php");
 		$link = conectar();
@@ -46,14 +47,25 @@
 					?> 
 				</h4>
 				<h4><?php echo $row['anio'] ?></h4>
-				<h4><?php echo "Calificación" ?></h4>
+
+				<h4>  <?php
+						$id = $row['id'];
+						 $resultc=mysqli_query($link, "SELECT * FROM comentarios WHERE peliculas_id=$id ORDER BY fecha");
+        				$cantcoment=mysqli_num_rows($resultc);
+        				if($cantcoment<>0)
+        				{
+        					echo "Calificacion: ";
+        				}
+        				$prom=promedio($cantcoment,$id,$link);
+
+				 		echo $prom; ?> </h4>
 			</td>
 			<td width="600">
 				<p align="justify"><b><?php echo $row['sinopsis']?></b></p>
 			</td>
 			<td>
 			   <?php
-			   		$id = $row['id'];
+			   		
 			    	echo "<p><a href='detalles.php?id=$id' class='btn btn-danger'>Detalles</a></p>" ; 
 			    ?>
 			</td>
