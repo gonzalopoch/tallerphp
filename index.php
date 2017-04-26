@@ -9,12 +9,12 @@
 		include ("menuinicio.php"); 
 		include ("connect.php");
 		$link = conectar();
+		
 		if (isset($_GET['criterio'])) 		//Pregunto si existe el parámetro $_GET
 			$criterio=$_GET["criterio"];  	// Asigno el parámetro a la variable $criterio
 		else 								//Si no existe el $_GET
 			$criterio = "nombre"; 			//Se agrega un criterio de orden por defecto, para cuando no existen parámetros. 
-		$resultp = mysqli_query($link, "SELECT * FROM peliculas ORDER BY $criterio ASC");
-		$cantpelis = mysqli_num_rows($resultp);
+		
 	?>
 </head>
 <body>
@@ -22,10 +22,75 @@
 		<tr>
 			<form method="GET">
 			  	<select name="criterio">
-		    		<option value="anio">Año</option>
- 					<option value="nombre">Nombre</option>
+				  	<?php 
+				  		if (isset($_GET['criterio'])){ //En este if compruebo cuál fue el último parámetro selccionado (si lo hubo) y lo asigno por defecto. 
+				  			if ($criterio == "nombre"){
+				  				echo '<option value="anio">Año</option>';
+ 								echo '<option value="nombre" selected="selected">Nombre</option>'; //Opción marcada por defecto
+				  			}
+				  			else{
+								echo '<option selected="selected" value="anio">Año</option>'; //Opción marcada por defecto
+ 								echo '<option value="nombre">Nombre</option>';
+ 							}
+ 						}
+ 						else{
+ 							echo '<option value="anio">Año</option>'; //No se seleccionó ningún parámetro anteriormente, se muestran en un orden predeterminado. 
+ 							echo '<option value="nombre">Nombre</option>';
+ 						} 
+				  	?>
 		    	</select>
 		    	<button type="submit" class="btn btn-danger navbar-btn">Ordenar</button>
+		    	<?php 
+		    			echo '<select name="busqueda">';
+				  		if (isset($_GET['busqueda']) && isset($_GET['inputb']) && ($_GET["inputb"]!="")){ 
+				  			$busqueda = $_GET["busqueda"];
+				  			$inputb =  $_GET["inputb"];
+				  			switch ($busqueda) {
+					  			case 'poranio':
+					  				$resultp = mysqli_query($link, "SELECT * FROM peliculas WHERE anio = $inputb ORDER BY $criterio ASC");
+					  				echo '<option value="poranio" selected="selected">Buscar por Año</option>'; //Opción marcada por defecto
+	 								echo '<option value="pornombre">Buscar por Nombre</option>'; 
+					  				echo '<option value="porgenero">Buscar por Género</option>';
+					  				break;
+					  			case 'pornombre':
+					  				$resultp = mysqli_query($link, "SELECT * FROM peliculas WHERE nombre LIKE '%$inputb%' ORDER BY $criterio ASC");
+					  				echo '<option value="poranio">Buscar por Año</option>';
+	 								echo '<option value="pornombre" selected="selected">Buscar por Nombre</option>'; //Opción marcada por defecto
+					  				echo '<option value="porgenero">Buscar por Género</option>';
+					  				break;
+					  			case 'porgenero':
+					  				$resultgb = mysqli_query($link, "SELECT * FROM generos WHERE genero LIKE '$inputb'");
+					  				$rowgb = mysqli_fetch_array($resultgb);
+									$generob = $rowgb['id'];
+					  				$resultp = mysqli_query($link, "SELECT * FROM peliculas WHERE generos_id LIKE '$generob' ORDER BY $criterio ASC");
+					  				echo '<option value="poranio">Buscar por Año</option>';
+	 								echo '<option value="pornombre">Buscar por Nombre</option>'; 
+					  				echo '<option value="porgenero" selected="selected">Buscar por Género</option>'; //Opción marcada por defecto
+					  				break;
+//					  			default:
+//					  				$resultp = mysqli_query($link, "SELECT * FROM peliculas ORDER BY $criterio ASC");
+//					  				echo '<option value="poranio">Buscar por Año</option>';
+//	 								echo '<option value="pornombre">Buscar por Nombre</option>'; 
+//					  				echo '<option value="porgenero">Buscar por Género</option>';
+//					  				break;
+					  		}
+				  		}
+				  		else{
+				  			$resultp = mysqli_query($link, "SELECT * FROM peliculas ORDER BY $criterio ASC");
+				  			echo '<option value="poranio">Buscar por Año</option>';
+ 							echo '<option value="pornombre">Buscar por Nombre</option>'; 
+				  			echo '<option value="porgenero">Buscar por Género</option>';
+				  		}
+					  	echo '</select>';
+					  	if ($resultp){
+				  			$cantpelis = mysqli_num_rows($resultp);
+				  		}
+				  		else{
+				  			$cantpelis = 0;
+				  		}
+				?>
+		    	<input id="Inputb" name="inputb" class="field-search" placeholder="Buscar...">
+		    	<button type="submit" class="btn btn-danger navbar-btn">Buscar</button>
 		    </form>
 		</tr>
 	<?php 
