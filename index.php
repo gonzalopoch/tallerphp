@@ -10,7 +10,7 @@
 		include ("connect.php");
 		$link = conectar();
 		
-		if (isset($_GET['criterio'])) 		//Pregunto si existe el parámetro $_GET
+		if ((isset($_GET['criterio'])) && ($_GET['criterio'] != "")) 		//Pregunto si existe el parámetro $_GET
 			$criterio=$_GET["criterio"];  	// Asigno el parámetro a la variable $criterio
 		else 								//Si no existe el $_GET
 			$criterio = "nombre"; 			//Se agrega un criterio de orden por defecto, para cuando no existen parámetros. 
@@ -23,73 +23,61 @@
 			<form method="GET">
 			  	<select name="criterio">
 				  	<?php 
-				  		if (isset($_GET['criterio'])){ //En este if compruebo cuál fue el último parámetro selccionado (si lo hubo) y lo asigno por defecto. 
-				  			if ($criterio == "nombre"){
-				  				echo '<option value="anio">Año</option>';
- 								echo '<option value="nombre" selected="selected">Nombre</option>'; //Opción marcada por defecto
-				  			}
-				  			else{
-								echo '<option selected="selected" value="anio">Año</option>'; //Opción marcada por defecto
- 								echo '<option value="nombre">Nombre</option>';
- 							}
- 						}
- 						else{
- 							echo '<option value="anio">Año</option>'; //No se seleccionó ningún parámetro anteriormente, se muestran en un orden predeterminado. 
+				  		if ($criterio == "nombre"){
+				  			echo '<option value="anio">Año</option>';
+ 							echo '<option value="nombre" selected="selected">Nombre</option>'; //Opción que aparecerá marcada por defecto
+				  		}
+				  		else{
+							echo '<option selected="selected" value="anio">Año</option>'; //Opción que aparecerá marcada por defecto
  							echo '<option value="nombre">Nombre</option>';
- 						} 
+ 						}
 				  	?>
 		    	</select>
 		    	<button type="submit" class="btn btn-danger navbar-btn">Ordenar</button>
 		    	<?php 
-		    			echo '<select name="busqueda">';
-				  		if (isset($_GET['busqueda']) && isset($_GET['inputb']) && ($_GET["inputb"]!="")){ 
-				  			$busqueda = $_GET["busqueda"];
-				  			$inputb =  $_GET["inputb"];
-				  			switch ($busqueda) {
-					  			case 'poranio':
-					  				$resultp = mysqli_query($link, "SELECT * FROM peliculas WHERE anio = $inputb ORDER BY $criterio ASC");
-					  				echo '<option value="poranio" selected="selected">Buscar por Año</option>'; //Opción marcada por defecto
-	 								echo '<option value="pornombre">Buscar por Nombre</option>'; 
-					  				echo '<option value="porgenero">Buscar por Género</option>';
-					  				break;
-					  			case 'pornombre':
-					  				$resultp = mysqli_query($link, "SELECT * FROM peliculas WHERE nombre LIKE '%$inputb%' ORDER BY $criterio ASC");
-					  				echo '<option value="poranio">Buscar por Año</option>';
-	 								echo '<option value="pornombre" selected="selected">Buscar por Nombre</option>'; //Opción marcada por defecto
-					  				echo '<option value="porgenero">Buscar por Género</option>';
-					  				break;
-					  			case 'porgenero':
-					  				$resultgb = mysqli_query($link, "SELECT * FROM generos WHERE genero LIKE '$inputb'");
-					  				$rowgb = mysqli_fetch_array($resultgb);
-									$generob = $rowgb['id'];
-					  				$resultp = mysqli_query($link, "SELECT * FROM peliculas WHERE generos_id LIKE '$generob' ORDER BY $criterio ASC");
-					  				echo '<option value="poranio">Buscar por Año</option>';
-	 								echo '<option value="pornombre">Buscar por Nombre</option>'; 
-					  				echo '<option value="porgenero" selected="selected">Buscar por Género</option>'; //Opción marcada por defecto
-					  				break;
-//					  			default:
-//					  				$resultp = mysqli_query($link, "SELECT * FROM peliculas ORDER BY $criterio ASC");
-//					  				echo '<option value="poranio">Buscar por Año</option>';
-//	 								echo '<option value="pornombre">Buscar por Nombre</option>'; 
-//					  				echo '<option value="porgenero">Buscar por Género</option>';
-//					  				break;
-					  		}
-				  		}
-				  		else{
-				  			$resultp = mysqli_query($link, "SELECT * FROM peliculas ORDER BY $criterio ASC");
-				  			echo '<option value="poranio">Buscar por Año</option>';
- 							echo '<option value="pornombre">Buscar por Nombre</option>'; 
-				  			echo '<option value="porgenero">Buscar por Género</option>';
-				  		}
-					  	echo '</select>';
-					  	if ($resultp){
-				  			$cantpelis = mysqli_num_rows($resultp);
-				  		}
-				  		else{
-				  			$cantpelis = 0;
-				  		}
+		    		$sqlq = "SELECT * from peliculas WHERE "; 
+		  			if ((isset($_GET['poranio'])) && ($_GET['poranio'] != "")) {
+		  				$anio = ($_GET['poranio']); // Guardo en $anio el parámetro ingresado para la búsqueda
+		  				$sqlq = $sqlq . "anio = $anio AND "; // Agrego al query la condición de búsqueda
+		  				echo "<input id='Poranio' name='poranio' value='$anio' class='field-search' placeholder='Año'>"; //Para que me muestre el parámetro buscado en el input se usa value
+		  			}
+		  			else{
+		  				echo '<input id="Poranio" name="poranio" class="field-search" placeholder="Año">'; //Si no se ingresó el parámetro para buscar por año, no se muestra ningún año por defecto en el input 
+		  			}
+
+		  			// Lo mismo que se realiza para la búsqueda por año se repite en la búsqueda por nombre y por género.
+
+		  			if ((isset($_GET['pornombre'])) && ($_GET['pornombre'] != "")) {
+		  				$nombre = ($_GET['pornombre']);
+		  				$sqlq = $sqlq . "nombre LIKE '%$nombre%' AND ";
+		  				echo "<input id='Pornombre' name='pornombre' value='$nombre' class='field-search' placeholder='Nombre'>"; //Para que me muestre el parámetro buscado en el input se usa value
+		  			}
+		  			else{
+		  				echo '<input id="Pornombre" name="pornombre" class="field-search" placeholder="Nombre">';
+		  			}
+
+		  			if ((isset($_GET['porgenero'])) && ($_GET['porgenero'] != "")) {
+		  				$genero = ($_GET['porgenero']);
+		  				$resultgb = mysqli_query($link, "SELECT * FROM generos WHERE genero LIKE '$genero'"); // Obtengo el género correspondiente al ingresado en la tabla de géneros.
+		  				$rowgb = mysqli_fetch_array($resultgb);
+						$generoid = $rowgb['id']; // Obtengo el id del género para buscar las películas del mismo, ya que tienen asociadas el número y no la palabra. 
+		  				$sqlq = $sqlq . "generos_id = $generoid AND ";
+						echo "<input id='Porgenero' name='porgenero' value='$genero' class='field-search' placeholder='Género'>"; //Para que me muestre el parámetro buscado en el input se usa value
+					}
+					else{
+						echo '<input id="Porgenero"" name="porgenero" class="field-search" placeholder="Género">';
+					}
+
+					$sqlq = $sqlq . "1 = 1 ORDER BY $criterio "; // Agrego un caso siempre verdadero al principio para poder colocar un AND al final de cada concatenación. Evita problemas cuando un criterio está siendo utilizado pero no tiene ningún criterio siguiente utilizado. Además permite colocar el WHERE antes de chequear las condiciones y que el código funcione aunque no se haya consultado por ningún parámetro de búsqueda. Luego se ordenan por un criterio que siempre va a tener un valor asignado, aunque el usuario no haya elegido uno.
+					$resultp = mysqli_query($link, $sqlq);
+				  	//echo "$sqlq";  Imprimir esto para chequear lo que realiza la sqli_query
+				  	if ($resultp){
+			  			$cantpelis = mysqli_num_rows($resultp);
+			  		}
+			  		else{
+			  			$cantpelis = 0;
+			  		}
 				?>
-		    	<input id="Inputb" name="inputb" class="field-search" placeholder="Buscar...">
 		    	<button type="submit" class="btn btn-danger navbar-btn">Buscar</button>
 		    </form>
 		</tr>
