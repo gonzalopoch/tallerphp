@@ -14,7 +14,7 @@ function promedio($cantcoment,$id,$link){
         $comentario=mysqli_fetch_array($resultc);                        
         $calif=$comentario['calificacion'] + $calif;
     }
-	return $calif/$cantcoment;
+	return round($calif/$cantcoment, 2); // Agrego función round que limita los decimales a el número asignado luego del paréntesis
 }}
 
 

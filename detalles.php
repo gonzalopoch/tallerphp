@@ -26,26 +26,31 @@
                     	<?php echo'<img class="imagenpelidet" src="data:image/jpeg;base64,'.base64_encode($pelicula['contenidoimagen']) .'" />'; ?>
                     </td>
     				<td class="celdatitulodet">
-                        <h1 class="titulodetalle"> <?php
-                        
-                         echo $pelicula['nombre'] ;?> </h1>
+                        <h1 class="titulodetalle"> 
+                            <?php
+                                echo $pelicula['nombre'];
+                            ?> 
+                        </h1>
                     	
                         <p class="descripciondet">
 
-                           <h4><?php 
-                                $id_gen = $pelicula['generos_id'];
-                                 $resultg = mysqli_query($link, "SELECT * FROM generos WHERE id = $id_gen "); //Usar siempre comillas dobles cuando se agrega una variable PHP dentro de los parametros de un query, por ejemplo $id_gen en este caso.
-                                $genero = mysqli_fetch_array($resultg);
-                                echo $genero['genero'];
+                           <h4>
+                                <?php 
+                                    $id_gen = $pelicula['generos_id'];
+                                    $resultg = mysqli_query($link, "SELECT * FROM generos WHERE id = $id_gen "); //Usar siempre comillas dobles cuando se agrega una variable PHP dentro de los parametros de un query, por ejemplo $id_gen en este caso.
+                                    $genero = mysqli_fetch_array($resultg);
+                                    echo $genero['genero'];
                                 ?> 
                             </h4>
-                           <h4><?php echo $pelicula['anio']; ?></h4>
-                           <h4>Calificación:
-                                    <?php 
-                                        $prom=promedio($cantcoment,$id,$link);
-                                        echo $prom;
-                                    ?>  </h4> 
-                         </p>
+                            <h4><?php echo $pelicula['anio']; ?></h4>
+                            <h4>
+                                Calificación:
+                                <?php 
+                                    $prom=promedio($cantcoment,$id,$link);
+                                    echo $prom;
+                                ?>
+                            </h4> 
+                        </p>
                              
                         <form id="calif" method="POST">
                             <p class="clasificacion">
@@ -61,7 +66,6 @@
                                 --><label for="radio9">★</label><!--
                                 --><input id="radio10" type="radio" name="estrellas" value="1"><!--
                                 --><label for="radio10">★</label>
-
                             </p>
                         </form>
                     </td>
@@ -69,40 +73,31 @@
                 <tr>
                     <td  class="celdasinop" colspan="2">
                     	<h5 class="sinopsisdet"> Sinopsis: </h5>
-    				
-                            <p class="sinopsisdet1">
+    				        <p class="sinopsisdet1" align="justify">
                                 <?php echo $pelicula['sinopsis']; ?>
-                            </p>
-                    		
+                            </p>		
                    	</td>
                 </tr>
-                <?php
-                    
-
-
-                ?>
-
                 <table class="table table-condensed" >
                     <tr>
-                    	<td>
-                            
+                    	<td>     
                     		<h3 class="titulocoments"> Comentarios <h3>
                     	</td>
                     </tr>
-                     </tr>
-                     <?php for ($i = 1; $i <=$cantcoment; $i++){
-                             $comentario=mysqli_fetch_array($resultc);
-                             $userid=$comentario['usuarios_id'];
-                             $resultu=mysqli_query($link, "SELECT * FROM usuarios WHERE id=$userid");
-                             $usuario=mysqli_fetch_array($resultu);
-                      ?>
-                    <tr >
-                    	<td class="comentarios" >
-                    		<h4 class="comentarios3">  <?php echo $usuario['nombreusuario']; ?> <small> <?php echo $comentario['fecha']; ?> </small> </h4>
 
-                    			<p class="comentarios2"> 
-                                    <?php echo $comentario['comentario'];?>
-                    			</p>
+                    <?php for ($i = 1; $i <=$cantcoment; $i++){
+                        $comentario=mysqli_fetch_array($resultc);
+                        $userid=$comentario['usuarios_id'];
+                        $resultu=mysqli_query($link, "SELECT * FROM usuarios WHERE id=$userid");
+                        $usuario=mysqli_fetch_array($resultu);
+                    ?>
+                    <tr>
+                    	<td class="comentarios" >
+                            <h4 class="comentarios3">  <?php echo $usuario['nombreusuario']; ?> <small> <?php echo $comentario['fecha']; ?> </small> </h4>
+
+                            <p class="comentarios2"> 
+                                <?php echo $comentario['comentario'];?>
+                            </p>
                     	</td>
                     </tr>
                     <?php } ?>	
