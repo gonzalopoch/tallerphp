@@ -5,7 +5,7 @@
 function promedio($cantcoment,$id,$link){
 	$calif=0;
 	if ($cantcoment==0){
-		return "Esta pelicula no fue calificada";
+		return "Esta película no fue calificada";
 	}
 	else{
 	$resultc=mysqli_query($link, "SELECT * FROM comentarios WHERE peliculas_id=$id ORDER BY fecha");

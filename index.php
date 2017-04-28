@@ -15,6 +15,12 @@
 		else 								//Si no existe el $_GET
 			$criterio = "nombre"; 			//Se agrega un criterio de orden por defecto, para cuando no existen parámetros. 
 		
+		if	(isset($_GET['pag'])){
+			$pagina = $_GET['pag']; 
+		}
+		else{
+			$pagina = 0;
+		}
 	?>
 </head>
 <body>
@@ -33,7 +39,7 @@
  						}
 				  	?>
 		    	</select>
-		    	<button type="submit" class="btn btn-danger navbar-btn">Ordenar</button>
+		    	<button type="submit" class="btn btn-danger search">Ordenar</button>
 		    	<?php 
 		    		$sqlq = "SELECT * from peliculas WHERE "; 
 		  			if ((isset($_GET['poranio'])) && ($_GET['poranio'] != "")) {
@@ -43,6 +49,7 @@
 		  			}
 		  			else{
 		  				echo '<input id="Poranio" name="poranio" class="field-search" placeholder="Año">'; //Si no se ingresó el parámetro para buscar por año, no se muestra ningún año por defecto en el input 
+		  				$anio="";
 		  			}
 
 		  			// Lo mismo que se realiza para la búsqueda por año se repite en la búsqueda por nombre y por género.
@@ -54,6 +61,7 @@
 		  			}
 		  			else{
 		  				echo '<input id="Pornombre" name="pornombre" class="field-search" placeholder="Nombre">';
+		  				$nombre="";
 		  			}
 
 		  			if ((isset($_GET['porgenero'])) && ($_GET['porgenero'] != "")) {
@@ -66,23 +74,38 @@
 					}
 					else{
 						echo '<input id="Porgenero"" name="porgenero" class="field-search" placeholder="Género">';
+						$genero = "";
 					}
 
 					$sqlq = $sqlq . "1 = 1 ORDER BY $criterio "; // Agrego un caso siempre verdadero al principio para poder colocar un AND al final de cada concatenación. Evita problemas cuando un criterio está siendo utilizado pero no tiene ningún criterio siguiente utilizado. Además permite colocar el WHERE antes de chequear las condiciones y que el código funcione aunque no se haya consultado por ningún parámetro de búsqueda. Luego se ordenan por un criterio que siempre va a tener un valor asignado, aunque el usuario no haya elegido uno.
+
+					$resulttotal = mysqli_query($link, $sqlq);
+					$tam_pag = 5;
+					$offset = $tam_pag * $pagina;
+			  		$sqlq = $sqlq . "LIMIT $tam_pag OFFSET $offset";
+			  		if ($resulttotal){
+			  			$cantpelistotal = mysqli_num_rows($resulttotal);
+			  		}
+			  		else{
+			  			$cantpelistotal = 0;
+			  		}
+
 					$resultp = mysqli_query($link, $sqlq);
-				  	//echo "$sqlq";  Imprimir esto para chequear lo que realiza la sqli_query
+				  	//echo "$sqlq";  //Imprimir esto para chequear lo que realiza la sqli_query
 				  	if ($resultp){
 			  			$cantpelis = mysqli_num_rows($resultp);
 			  		}
 			  		else{
 			  			$cantpelis = 0;
 			  		}
+			  		
+			  		//echo "$cantpelis";
 				?>
-		    	<button type="submit" class="btn btn-danger navbar-btn">Buscar</button>
+		    	<button type="submit" class="btn btn-danger search">Buscar</button>
 		    </form>
 		</tr>
 	<?php 
-		for ($i = 1; $i <=$cantpelis; $i++){ 
+		for ($i = 1; $i <= $cantpelis ; $i++){ 
 			$row = mysqli_fetch_array($resultp); //Guardo en row la fila correspondiente a los datos de la siguiente película en el arreglo.
 	?>
 		<tr>
@@ -128,6 +151,21 @@
 			mysqli_close($link); //Cierro la BDD
 		?>		
 	</table>
+	<div align="center" class="pie">
+		<?php
+			$sig = $pagina + 1;
+			$ant = $pagina - 1;
+			$num_sig = $pagina + 2;
+			//echo "sig $sig ant $ant cantpelistotal $cantpelistotal ";
+			//echo (round($cantpelistotal / $tam_pag, 1));
+			if ($pagina >= 1){
+				echo "<a href='index.php?pag=$ant&criterio=$criterio&poranio=$anio&porgenero=$genero&pornombre=$nombre' class='btn btn-info2'>Anterior (Pág. $pagina)</a>" ; 
+			}
 
+			if ((round($cantpelistotal / $tam_pag, 1)) > $sig){  
+				echo "<a href='index.php?pag=$sig&criterio=$criterio&poranio=$anio&porgenero=$genero&pornombre=$nombre' class='btn btn-info2'>Siguiente (Pág. $num_sig)</a>" ; 
+			}
+		?>
+	</div>
 </body>
 </html>
