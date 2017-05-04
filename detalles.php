@@ -11,9 +11,6 @@
         $link = conectar();
         $resultp = mysqli_query($link, "SELECT * FROM peliculas WHERE id=$id");
         $pelicula= mysqli_fetch_array($resultp);
-
-        $resultc=mysqli_query($link, "SELECT * FROM comentarios WHERE peliculas_id=$id ORDER BY fecha");
-        $cantcoment=mysqli_num_rows($resultc);
     ?>
 
 
@@ -46,8 +43,7 @@
                             <h4>
                                 Calificación:
                                 <?php 
-                                    $prom=promedio($cantcoment,$id,$link);
-                                    echo $prom;
+                                    echo promedio($id,$link);
                                 ?>
                             </h4> 
                         </p>
@@ -85,15 +81,18 @@
                     	</td>
                     </tr>
 
-                    <?php for ($i = 1; $i <=$cantcoment; $i++){
-                        $comentario=mysqli_fetch_array($resultc);
-                        $userid=$comentario['usuarios_id'];
-                        $resultu=mysqli_query($link, "SELECT * FROM usuarios WHERE id=$userid");
-                        $usuario=mysqli_fetch_array($resultu);
+                    <?php 
+                        $resultc=mysqli_query($link, "SELECT * FROM comentarios WHERE peliculas_id=$id ORDER BY fecha");
+                        $cantcoment = mysqli_num_rows($resultc);
+                        for ($i = 1; $i <=$cantcoment; $i++){
+                            $comentario=mysqli_fetch_array($resultc);
+                            $userid=$comentario['usuarios_id'];
+                            $resultu=mysqli_query($link, "SELECT * FROM usuarios WHERE id=$userid");
+                            $usuario=mysqli_fetch_array($resultu);
                     ?>
                     <tr>
                     	<td class="comentarios" >
-                            <h4 class="comentarios3">  <?php echo $usuario['nombreusuario']; ?> <small> <?php echo $comentario['fecha']; ?> </small> </h4>
+                            <p><h4 class="comentarios3">  <?php echo $usuario['nombreusuario']; ?> <small>| <?php echo $comentario['fecha']; ?> | Calificación: <?php echo $comentario['calificacion']; ?></small></h4></p>
 
                             <p class="comentarios2"> 
                                 <?php echo $comentario['comentario'];?>

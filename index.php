@@ -126,15 +126,8 @@
 
 				<h4>  <?php
 						$id = $row['id'];
-						 $resultc=mysqli_query($link, "SELECT * FROM comentarios WHERE peliculas_id=$id ORDER BY fecha");
-        				$cantcoment=mysqli_num_rows($resultc);
-        				if($cantcoment<>0)
-        				{
-        					echo "Calificacion: ";
-        				}
-        				$prom=promedio($cantcoment,$id,$link);
-
-				 		echo $prom; ?> </h4>
+        				echo "Calificación: ";
+				 		echo promedio($id,$link); ?> </h4>
 			</td>
 			<td width="600">
 				<p align="justify"><b><?php echo $row['sinopsis']?></b></p>
