@@ -13,13 +13,20 @@
 		if ((isset($_GET['criterio'])) && ($_GET['criterio'] != "")) 		//Pregunto si existe el parámetro $_GET
 			$criterio=$_GET["criterio"];  	// Asigno el parámetro a la variable $criterio
 		else 								//Si no existe el $_GET
-			$criterio = "nombre"; 			//Se agrega un criterio de orden por defecto, para cuando no existen parámetros. 
+			$criterio = "nombreD"; 			//Se agrega un criterio de orden por defecto, para cuando no existen parámetros. 
 		
 		if	(isset($_GET['pag'])){
 			$pagina = $_GET['pag']; 
 		}
 		else{
 			$pagina = 0;
+		}
+
+		if(isset($_GET['gen'])){
+			$gen = $_GET['gen'];
+		}
+		else{
+			$gen="";
 		}
 	?>
 </head>
@@ -29,13 +36,29 @@
 			<form method="GET">
 			  	<select name="criterio">
 				  	<?php 
-				  		if ($criterio == "nombre"){
-				  			echo '<option value="anio">Año</option>';
- 							echo '<option value="nombre" selected="selected">Nombre</option>'; //Opción que aparecerá marcada por defecto
+				  		if ($criterio == "nombreD"){
+				  			echo '<option value="anioA">Año ↑</option>';
+				  			echo '<option value="anioD">Año ↓</option>';
+				  			echo '<option value="nombreA">Nombre ↑</option>';
+ 							echo '<option value="nombreD" selected="selected">Nombre ↓</option>'; //Opción que aparecerá marcada por defecto
 				  		}
-				  		else{
-							echo '<option selected="selected" value="anio">Año</option>'; //Opción que aparecerá marcada por defecto
- 							echo '<option value="nombre">Nombre</option>';
+				  		if ($criterio == "anioA"){
+							echo '<option selected="selected" value="anioA">Año ↑</option>'; //Opción que aparecerá marcada por defecto
+ 							echo '<option value="anioD">Año ↓</option>';
+				  			echo '<option value="nombreA">Nombre ↑</option>';
+ 							echo '<option value="nombreD">Nombre ↓</option>';
+ 						}
+ 						if ($criterio == "anioD"){
+							echo '<option value="anioA">Año ↑</option>'; 
+ 							echo '<option value="anioD" selected="selected">Año ↓</option>'; //Opción que aparecerá marcada por defecto
+				  			echo '<option value="nombreA">Nombre ↑</option>';
+ 							echo '<option value="nombreD">Nombre ↓</option>';
+ 						}
+ 						if ($criterio == "nombreA"){
+							echo '<option value="anioA">Año ↑</option>'; 
+ 							echo '<option value="anioD">Año ↓</option>';
+ 							echo '<option value="nombreA" selected="selected">Nombre ↑</option>'; //Opción que aparecerá marcada por defecto
+ 							echo '<option value="nombreD">Nombre ↓</option>';
  						}
 				  	?>
 		    	</select>
@@ -64,20 +87,48 @@
 		  				$nombre="";
 		  			}
 
-		  			if ((isset($_GET['porgenero'])) && ($_GET['porgenero'] != "")) {
-		  				$genero = ($_GET['porgenero']);
-		  				$resultgb = mysqli_query($link, "SELECT * FROM generos WHERE genero LIKE '$genero'"); // Obtengo el género correspondiente al ingresado en la tabla de géneros.
-		  				$rowgb = mysqli_fetch_array($resultgb);
-						$generoid = $rowgb['id']; // Obtengo el id del género para buscar las películas del mismo, ya que tienen asociadas el número y no la palabra. 
-		  				$sqlq = $sqlq . "generos_id = $generoid AND ";
-						echo "<input id='Porgenero' name='porgenero' value='$genero' class='field-search' placeholder='Género'>"; //Para que me muestre el parámetro buscado en el input se usa value
-					}
-					else{
-						echo '<input id="Porgenero" name="porgenero" class="field-search" placeholder="Género">';
-						$genero = "";
+				?>
+				<select name="gen">
+					<?php 
+						$resultgeneros = mysqli_query($link, "SELECT * FROM generos"); 
+						$cantGeneros = mysqli_num_rows($resultgeneros);
+						if($gen == ""){
+							echo '<option value="todas" selected="selected">Mostrar todos los géneros</option>';
+						}
+						else{
+							echo '<option value="todas">Mostrar todos los géneros</option>';
+							for($k=1; $k<= $cantGeneros ; $k++ ){
+								$rowGen = mysqli_fetch_array($resultgeneros);
+								$generoR = $rowGen['genero'];
+							
+								if($gen == $generoR){
+									$generoid = $rowGen['id'];
+									echo "<option value='$generoR' selected='selected'>$generoR</option>";
+									$sqlq = $sqlq . "generos_id = $generoid AND ";
+								}
+								else echo "<option value='$generoR'>$generoR</option>";
+							}
+						}
+					?>
+				</select>
+				<?php
+
+					switch ($criterio) {
+						case 'nombreA':
+							$criterioSQL = "nombre ASC";
+							break;
+						case 'nombreD':
+							$criterioSQL = "nombre DESC";
+							break;
+						case 'anioA':
+							$criterioSQL = "anio ASC";
+							break;
+						case 'anioD':
+							$criterioSQL = "anio DESC";
+							break;
 					}
 
-					$sqlq = $sqlq . "1 = 1 ORDER BY $criterio "; // Agrego un caso siempre verdadero al principio para poder colocar un AND al final de cada concatenación. Evita problemas cuando un criterio está siendo utilizado pero no tiene ningún criterio siguiente utilizado. Además permite colocar el WHERE antes de chequear las condiciones y que el código funcione aunque no se haya consultado por ningún parámetro de búsqueda. Luego se ordenan por un criterio que siempre va a tener un valor asignado, aunque el usuario no haya elegido uno.
+					$sqlq = $sqlq . "1 = 1 ORDER BY $criterioSQL "; // Agrego un caso siempre verdadero al principio para poder colocar un AND al final de cada concatenación. Evita problemas cuando un criterio está siendo utilizado pero no tiene ningún criterio siguiente utilizado. Además permite colocar el WHERE antes de chequear las condiciones y que el código funcione aunque no se haya consultado por ningún parámetro de búsqueda. Luego se ordenan por un criterio que siempre va a tener un valor asignado, aunque el usuario no haya elegido uno.
 
 					$resulttotal = mysqli_query($link, $sqlq);
 					$tam_pag = 5;
@@ -152,11 +203,11 @@
 			//echo "sig $sig ant $ant cantpelistotal $cantpelistotal ";
 			//echo (round($cantpelistotal / $tam_pag, 1));
 			if ($pagina >= 1){
-				echo "<a href='index.php?pag=$ant&criterio=$criterio&poranio=$anio&porgenero=$genero&pornombre=$nombre' class='btn btn-info2'>Anterior (Pág. $pagina)</a>" ; 
+				echo "<a href='index.php?pag=$ant&criterio=$criterio&poranio=$anio&gen=$gen&pornombre=$nombre' class='btn btn-info2'>Anterior (Pág. $pagina)</a>" ; 
 			}
 
 			if ((round($cantpelistotal / $tam_pag, 1)) > $sig){  
-				echo "<a href='index.php?pag=$sig&criterio=$criterio&poranio=$anio&porgenero=$genero&pornombre=$nombre' class='btn btn-info2'>Siguiente (Pág. $num_sig)</a>" ; 
+				echo "<a href='index.php?pag=$sig&criterio=$criterio&poranio=$anio&gen=$gen&pornombre=$nombre' class='btn btn-info2'>Siguiente (Pág. $num_sig)</a>" ; 
 			}
 		?>
 	</div>
