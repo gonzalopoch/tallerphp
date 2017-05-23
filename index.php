@@ -73,7 +73,7 @@
 						echo "<input id='Porgenero' name='porgenero' value='$genero' class='field-search' placeholder='Género'>"; //Para que me muestre el parámetro buscado en el input se usa value
 					}
 					else{
-						echo '<input id="Porgenero"" name="porgenero" class="field-search" placeholder="Género">';
+						echo '<input id="Porgenero" name="porgenero" class="field-search" placeholder="Género">';
 						$genero = "";
 					}
 

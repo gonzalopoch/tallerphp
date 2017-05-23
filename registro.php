@@ -10,7 +10,7 @@
 	<?php
 		include ("connect.php");
 		$link = conectar();
-		if(isset($_POST['save'])){;
+		if(isset($_POST['save'])){
 			if(isset($_POST['nombre'])){
 				$newNomUsuario = $_POST['nomUsuario'];
 				$CompararNombre = mysqli_query($link, "SELECT * FROM usuarios WHERE nombreusuario LIKE '$newNomUsuario'");
