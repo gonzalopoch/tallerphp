@@ -94,6 +94,11 @@
 						$cantGeneros = mysqli_num_rows($resultgeneros);
 						if($gen == ""){
 							echo '<option value="todas" selected="selected">Mostrar todos los géneros</option>';
+							for($k=1; $k<= $cantGeneros ; $k++ ){
+								$rowGen = mysqli_fetch_array($resultgeneros);
+								$generoR = $rowGen['genero'];
+								echo "<option value='$generoR'>$generoR</option>";
+							}
 						}
 						else{
 							echo '<option value="todas">Mostrar todos los géneros</option>';
