@@ -76,10 +76,13 @@
                         $resultg = mysqli_query($link, "SELECT * FROM generos WHERE id = $id_gen "); //Usar siempre comillas dobles cuando se agrega una variable PHP dentro de los parametros de un query, por ejemplo $id_gen en este caso.
                         $genero = mysqli_fetch_array($resultg);
                         echo $genero['genero'];
+                        $idpeli=$row['id'];
+
                         ?> 
                 </td>
                 <td><button type="submit" class="btn btn-danger search">Editar</button>
-                    <button type="submit" class="btn btn-danger search" onclick="eliminarpeli(<?php $row['id'] ?>)">Eliminar</button>
+                    <button type="submit" class="btn btn-danger search" onclick="eliminarpeli(<?php echo $idpeli; ?>)">Eliminar</button>
+                    
                 </td>
             </tr>
         <?php }
