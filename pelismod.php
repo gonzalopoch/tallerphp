@@ -92,7 +92,7 @@
         <script type="text/javascript">
             function eliminarpeli(id) {
                 if (window.confirm("Aviso:\nDesea eliminar el registro seleccionado?")) {
-                    window.location = "delete.php?action=del&id="+id;  
+                    window.location = "delete.php?action=del&tabla=peliculas&id="+id;  
                 }
             }
         </script>
