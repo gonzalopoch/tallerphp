@@ -4,13 +4,24 @@
 		
 		<link href="css/bootstrap.min.css" rel="stylesheet">
 		<link type="text/css" rel="stylesheet" href="style.css">
-	<?php include ("menuinicio.php"); ?>
+	<?php 
+	include("menuinicio.php"); 
+	session_start();
+	if($_POST){
+		if((isset($_POST['nombreu'])) && (isset($_POST['pass']))){
+			require_once 'usuario.class.php';
+			$usuario = new usuario();
+			$usuario->iniciarSesion();
+		}
+	}
+	?>
 </head>
 
 
 <body>
 	<div class="panel">
-		<form id="formulario_inicio" method="POST">
+		<form id="formulario_inicio" method="POST"
+		action="">
 			<div class="form-group">
 				<label class="inicios">Nombre de Usuario</label>
 				<p>
