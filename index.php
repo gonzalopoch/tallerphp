@@ -31,6 +31,10 @@
 	?>
 </head>
 <body>
+	<?php 
+		echo $_SESSION['tipoUsuario'];
+		echo $_SESSION['usuario'];
+	 ?>
 	<table class= "table table-hover">
 		<tr>
 			<form method="GET">
