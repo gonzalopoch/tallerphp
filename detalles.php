@@ -94,29 +94,32 @@
                             </p>
                     	</td>
                     </tr>
-                    <?php } ?>	
-                    <tr>
-                        <td>
-                            <h4 class="comentarios">Agregar un comentario</h4>
-                            <form id="calif" method="POST">
-                                <textarea id="addComentario" name="addComentario" class="comentInput" required></textarea>
-                                <button type="submit" name="save" class="btn btn-danger bderecha2">Comentar y calificar</button>
-                                <p class="clasificacion">                               
-                                    <input id="radio6" type="radio" name="estrellas" value="5">
-                                    <label for="radio6">★</label>
-                                    <input id="radio7" type="radio" name="estrellas" value="4">
-                                    <label for="radio7">★</label>
-                                    <input id="radio8" type="radio" name="estrellas" value="3">
-                                    <label for="radio8">★</label>
-                                    <input id="radio9" type="radio" name="estrellas" value="2">
-                                    <label for="radio9">★</label>
-                                    <input id="radio10" type="radio" name="estrellas" value="1" required>
-                                    <label for="radio10">★</label>
-                                </p>
-                               
-                            </form>
-                        </td>
-                    </tr>
+                    <?php }
+                    if ((isset($_SESSION['usuario'])) && (!empty($_SESSION['usuario']))){ 
+                    ?>	
+                        <tr>
+                            <td>
+                                <h4 class="comentarios">Agregar un comentario</h4>
+                                <form id="calif" method="POST">
+                                    <textarea id="addComentario" name="addComentario" class="comentInput" required></textarea>
+                                    <button type="submit" name="save" class="btn btn-danger bderecha2">Comentar y calificar</button>
+                                    <p class="clasificacion">                               
+                                        <input id="radio6" type="radio" name="estrellas" value="5">
+                                        <label for="radio6">★</label>
+                                        <input id="radio7" type="radio" name="estrellas" value="4">
+                                        <label for="radio7">★</label>
+                                        <input id="radio8" type="radio" name="estrellas" value="3">
+                                        <label for="radio8">★</label>
+                                        <input id="radio9" type="radio" name="estrellas" value="2">
+                                        <label for="radio9">★</label>
+                                        <input id="radio10" type="radio" name="estrellas" value="1" required>
+                                        <label for="radio10">★</label>
+                                    </p>
+                                   
+                                </form>
+                            </td>
+                        </tr>
+                    <?php } ?>
                 </table>
         </div>
 	</body>
