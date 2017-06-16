@@ -177,7 +177,7 @@
                     ?>
                    
 
-                   <?php echo "<button style='display:none' id='okboton".$i."' type='submit' class='btn btn-danger search' onclick='editno2(".'"'.$i.'"'.")' >Guardar cambios</button>";
+                   <?php echo "<button style='display:none' id='okboton".$i."' type='submit' class='btn btn-danger search' onclick='editno2(".'"'.$i.'"'.")' >Guardar</button>";
                     ?>
                    
                     </form>
