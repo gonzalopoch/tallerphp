@@ -48,11 +48,11 @@
 			</div>
 			<div class="form-group">
 		    	<label class="inicios">Usuario</label>
-		    	<input class="form-control" name="nomUsuario" placeholder="Nombre de usuario deseado">
+		    	<input class="form-control" name="nomUsuario" placeholder="Nombre de usuario deseado. (Mínimo 6 caracteres)">
 		  	</div>
 			<div class="form-group">
 			    <label class="inicios">Contraseña</label>
-			    <input type="password" class="form-control" name="pass" placeholder="Elija una contraseña">
+			    <input type="password" class="form-control" name="pass" placeholder="Debe contener letras mayúsculas y minúsculas y por lo menos un número o símbolo.">
 			</div>
 			<div class="form-group">
 				<label class="inicios">Repita la contraseña</label>
@@ -72,7 +72,12 @@
 		  var vacios = true;
 		  var validaNombre = "";
 		  var validaApellido = "";
+		  var validaNU = "";
+		  var validaFP = "";
+		  var validaLP = "";
 		  var letras = /^[A-Za-z]+$/;
+		  var alfanum = /^[a-zA-Z0-9]+$/;
+		  var passV = /^(?=.*[0-9!@#\$%\^\&*\)\(+=._-])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9!@#\$%\^\&*\)\(+=._-])+$/;
 
 		  if(f.nombre.value == "")
 		  {
@@ -109,8 +114,18 @@
 		  	ok = false;
 		  }
 
+		  if(!f.pass.value.match(passV)){
+		  	validaFP = "La contraseña debe contener al menos un número o símbolo y letras mayúsculas y minúsculas."
+		  	ok = false;
+		  }
+
 		  if((f.passRepe.value!="") && (f.pass.value!="") && (f.pass.value != f.passRepe.value)){
 		  	validaPass = "Las contraseñas ingresadas deben ser iguales. ";
+		  	ok = false;
+		  }
+
+		  if(f.pass.value.length < 6){
+		  	validaLP = "La contraseña debe tener 6 o más caracteres. ";
 		  	ok = false;
 		  }
 
@@ -124,10 +139,20 @@
 		  	ok = false;
 		  }
 
+		  if(f.nomUsuario.value.length < 6){
+		  	validaNU = "El nombre de usuario debe contener 6 o más caracteres. ";
+		  	ok = false;
+		  }
+
+		  if(!f.nomUsuario.value.match(alfanum)){
+		  	validaNU = "El nombre de usuario debe contener caracteres alfanuméricos. ";
+		  	ok = false;
+		  }
+
 		  if(ok == false)
 		    //alert(msg);
 			var mensajeError = document.getElementById('insertHere');
-			mensajeError.innerHTML ='<div class="alert alert-danger">' + msg1 + msg + validaPass + validaNombre + validaApellido + '</div>';
+			mensajeError.innerHTML ='<div class="alert alert-danger">' + msg1 + msg + validaPass + validaNombre + validaApellido + validaNU + validaLP + validaFP + '</div>';
 		  return ok;
 		}
 	</script>

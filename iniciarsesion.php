@@ -21,17 +21,18 @@
 			echo '</div>';
 		}else{?>
 			<div class="panel">
-			<form id="formulario_inicio" method="POST" action="actionIS.php">
+			<span id="insertHere"></span>
+			<form id="formulario_inicio" method="POST" action="actionIS.php" onsubmit="return validaInicio(this)">
 				<div class="form-group">
 					<label class="inicios">Nombre de Usuario</label>
 					<p>
-						<input class="inicios" type="text" name="nombreu" required><small class="inicios">Ingresa el nombre de usuario con el que te registraste.</small>
+						<input class="inicios" type="text" name="nombreu" pattern="^[A-Za-z0-9_]{6,}$" required title="6 caracteres como mínimo. Solo caracteres alfanuméricos."><small class="inicios">Ingresa el nombre de usuario con el que te registraste.</small>
 					</p>
 				</div>
 				<div class="form-group">
 					<label class="inicios">Contraseña</label> 
 					<p>
-						<input class="inicios" type="password" name="pass" required><small class="inicios">Más de 6 caracteres. Letras y al menos un número o símbolo.</small>
+						<input class="inicios" type="password" name="pass" pattern=".{6,}" required title="6 caracteres como mínimo"><small class="inicios">Más de 6 caracteres. Letras y al menos un número o símbolo.</small>
 					</p> 
 					
 				</div>
