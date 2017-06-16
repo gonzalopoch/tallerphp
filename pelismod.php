@@ -23,8 +23,14 @@
             var ok = document.getElementById("okboton" + i);
             var edito = document.getElementById("editarboton" + i);
             ok.style.display='none';
-            edito.style.display='block'
+            edito.style.display='block';
 
+            }
+
+            function eliminar(id) {
+                if (window.confirm("Aviso:\n Desea eliminar el registro seleccionado?")) {
+                    window.location = "delete.php?action=del&tabla=peliculas&id="+id;  
+                }
             }
 
         function editar(i){
@@ -84,38 +90,46 @@
             $row = mysqli_fetch_array($resultp);
         ?>
             <tr class="texto">
-                <form method="POST" action="edit.php">
+                
                     
                     
                 <td>  <?php echo $i; ?> 
 
                 </td>
 
-                <td> 
+                <td width="30"> 
                                      <?php 
-                    echo "<input type='hidden'  value='".$row['id']."' name='idpeli'>"; //para mandar la id a editar.
+                    
                     echo "<div>";
                     echo '<img class="imagenpeli" src="data:image/jpeg;base64,'.base64_encode($row['contenidoimagen']) .'" />';
                     echo "</div>"; ?>
+                    <form action="cambiarimagen.php" enctype="multipart/form-data" method="post">
+                      <input class="imagen1234" id="imagen" name="imagen" size="30" type="file" />
+                    <?php  echo "<input type='hidden'  value='".$row['id']."' name='idpeli2'>";  ?>
+                      <input type="submit" value="Subir imagen" />
+
+                    </form>
                 </td>
-                <td> 
+          <form method="POST" action="edit.php">    
+                <td width="100"> 
 
                 <?php 
                     echo "<div id='editablenom".$i."'>";
                     echo $row['nombre'];
                     echo "</div>"; //
                     echo"
-                     <input type='text'class='intext' style='display:none' id='nombre".$i."' value='".$row['nombre']."' name='nombrenuevo'> "
-
-                     ;
+                     <input type='text'class='intext' style='display:none' id='nombre".$i."' value='".$row['nombre']."' name='nombrenuevo'> ";
+                    $idpeli=$row['id'];
+                    echo "<input type='hidden'  value='".$row['id']."' name='idpeli'>"; //para mandar la id a editar.
+                     
                  
 ?>
                 </td>
-                <td><?php   $sinop=$row['sinopsis'];
+                <td ><?php   $sinop=$row['sinopsis'];
 
-                    echo "<div id='divsinopsis".$i."'>"   ;      
+                    echo "<div align='justify' id='divsinopsis".$i."'>"   ;      
                     echo "<div id='puntoCorto".$i."'>";
-                    echo truncar($sinop, 150)." <a href='#' id='puntoEnlace".$i."' onclick='MostrarOcultar(".'"'.$i.'"'.");'  border='0' /> Ver mas</a>";
+                    echo truncar($sinop, 200)." <a href='#' id='puntoEnlace".$i."' onclick='MostrarOcultar(".'"'.$i.'"'.");'  border='0' /> Ver mas</a>";
                     echo "</div>";
                     echo "<div id='punto".$i."' style='display:none'>";
                     echo $sinop."<br /><a href='#' id='puntoEnlace".$i."' onclick='MostrarOcultar(".'"'.$i.'"'.");' style='cursor:pointer' >Ver menos </a>";
@@ -127,7 +141,7 @@
                             
                             ?>
                 </td>
-                <td><?php  echo "<div id='divanio".$i."'>"; 
+                <td width="100"><?php  echo "<div id='divanio".$i."'>"; 
                         echo $row['anio'];
                         echo "</div>";
                         echo"<input class='intextanio' type='text' style='display:none' id='anio".$i."' value='".$row['anio']."' name='anionuevo'> ";
@@ -141,7 +155,7 @@
                         echo $genero['genero'];
                         echo "</div>";
 
-    
+                    
                         echo  "<select name='gennue' id='genero".$i."' style='display:none'>";
             
                         $resultgeneros = mysqli_query($link, "SELECT * FROM generos"); 
@@ -161,74 +175,67 @@
                 <td>
                     <?php echo "<button type='button' id='editarboton".$i."' class='btn btn-danger search' onclick='editar(".'"'.$i.'"'.")' >Editar</button>";
                     ?>
-                    <button type='button' class="btn btn-danger search" onclick="eliminarpeli(<?php echo $idpeli; ?>)">Eliminar</button>
+                   
+
                    <?php echo "<button style='display:none' id='okboton".$i."' type='submit' class='btn btn-danger search' onclick='editno2(".'"'.$i.'"'.")' >Guardar cambios</button>";
                     ?>
                    
-                    
-
+                    </form>
+                     <button type="button" class="btn btn-danger search" onclick="eliminar(<?php echo $idpeli; ?>)">Eliminar</button>
                     
                 </td>
 
-                </form>
+
+                
             </tr>
         <?php }
         ?>
   
+            <form class="form-inline" method="POST" enctype="multipart/form-data" action="add.php">
+            <tr>
+                <td>
+                </td>
+                <td width="30">
+                    <input class="imagen1234" id="imagen" name="imagen2" size="30" type="file" required>
+                </td>
+                <td width="200">
+                    <input type="text" class="form-control" id="Inputnombre" name="ingresonombre" placeholder="Nombre pelicula" required>
+                </td>
+                <td >
+                    <textarea name='ingresosinop' placeholder="Sinopsis pelicula" class='inputsinop' required> </textarea>
+                </td>
+                <td width="100">
+                    <input type="text" class="form-control" id="Inputanio" name="ingresoanio"  placeholder="Año" required>
+                </td>
+                <td>
+                     <?php
 
+                        echo  "<select name='inputgen' id='inputgena' >";
+                        
+                                    $resultgeneros = mysqli_query($link, "SELECT * FROM generos"); 
+                                    $cantGeneros = mysqli_num_rows($resultgeneros);
+                                     
+                                        echo "<option value='todas' >Generos</option>";
+                                        for($k=1; $k<= $cantGeneros ; $k++ ){
+                                            $rowGen = mysqli_fetch_array($resultgeneros);
+                                            $generoR = $rowGen['genero'];
+                                            $generoid =$rowGen['id'];
+                                            echo "<option value='$generoid'>$generoR</option>";
+                                        }
+                                    echo "</div>";
 
+                                        
+
+                         ?>
+                         </select>
+                </td>
+                <td>
+                    <button  type="submit" class="btn btn-danger">Agregar pelicula</button>
+                    </form>
+                </td>
+            </tr>
         
         </table>
-        <script type="text/javascript">
-            function eliminarpeli(id) {
-                if (window.confirm("Aviso:\nDesea eliminar el registro seleccionado?")) {
-                    window.location = "delete.php?action=del&tabla=peliculas&id="+id;  
-                }
-            }
-        </script>
-
-            <form class="form-inline" method="POST" action="agregar.php">
-            <div class="form-group">
-                <label >Nombre</label>
-                <input type="text" class="form-control" id="Inputnombre" name="ingresonombre" placeholder="Nombre pelicula">
-            </div>
-            <div class="form-group">
-                <label >Año</label>
-                <input type="text" class="form-control" id="Inputanio" name="ingresoanio"  placeholder="Año pelicula">
-            </div>
-             <div class="form-group">
-                <label >Sinopsis</label>
-                <input type="text" class="form-control" id="Inputanio" name="ingreso"  placeholder="Sinopsis pelicula">
-            </div>
-            <div class="form-group">
-                <label> Genero </label>
-
-            <?php
-
-            echo  "<select name='inputgen' id='inputgena' >";
-            
-                        $resultgeneros = mysqli_query($link, "SELECT * FROM generos"); 
-                        $cantGeneros = mysqli_num_rows($resultgeneros);
-                         
-                            echo "<option value='todas' >Generos</option>";
-                            for($k=1; $k<= $cantGeneros ; $k++ ){
-                                $rowGen = mysqli_fetch_array($resultgeneros);
-                                $generoR = $rowGen['genero'];
-                                $generoid =$rowGen['id'];
-                                echo "<option value='$generoid'>$generoR</option>";
-                            }
-                        echo "</div>";
-
-                            
-
-             ?>
-             </select>
-             <button  type="submit" class="btn btn-danger">Agregar pelicula</button>
-                  
-        </form>
-
-
-        </div>
               
 	</body>
 </html>
