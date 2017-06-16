@@ -162,7 +162,7 @@
                         $cantGeneros = mysqli_num_rows($resultgeneros);
                         
                        
-                            echo "<option value='".$genero['genero']."' >".$genero['genero']."(actual)</option>";
+                            echo "<option value='".$genero['id']."' >".$genero['genero']."(actual)</option>";
                             for($k=1; $k<= $cantGeneros ; $k++ ){
                                 $rowGen = mysqli_fetch_array($resultgeneros);
                                 $generoR = $rowGen['genero'];
@@ -197,17 +197,19 @@
                 </td>
                 <td width="30">
                     <input class="imagen1234" id="imagen" name="imagen2" size="30" type="file" required>
+                     <input type="text" class="form-control" id="Inputnombre" name="ingresonombre" placeholder="Nombre pelicula" required>
                 </td>
-                <td width="200">
-                    <input type="text" class="form-control" id="Inputnombre" name="ingresonombre" placeholder="Nombre pelicula" required>
+                <td>
+                   
                 </td>
                 <td >
                     <textarea name='ingresosinop' placeholder="Sinopsis pelicula" class='inputsinop' required> </textarea>
                 </td>
-                <td width="100">
-                    <input type="text" class="form-control" id="Inputanio" name="ingresoanio"  placeholder="Año" required>
+                <td>
+                    
                 </td>
                 <td>
+                    <input type="text" class="form-control" id="Inputanio" name="ingresoanio"  placeholder="Año" required>
                      <?php
 
                         echo  "<select name='inputgen' id='inputgena' >";
