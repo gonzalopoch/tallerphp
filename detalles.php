@@ -24,7 +24,10 @@
             if(isset($_POST['addComentario'])){
                 $newComentario = $_POST['addComentario'];
             }
-            mysqli_query($link, "INSERT INTO comentarios (comentario,calificacion,peliculas_id,usuarios_id,fecha) VALUES ('$newComentario','$newCalificacion','$id','1',CURRENT_DATE)");
+            if(isset($_POST['idU'])){
+                $idU = $_POST['idU'];
+            }
+            mysqli_query($link, "INSERT INTO comentarios (comentario,calificacion,peliculas_id,usuarios_id,fecha) VALUES ('$newComentario','$newCalificacion','$id','$idU',CURRENT_DATE)");
         }
         ?>
         <div class="panelcomen">
@@ -96,7 +99,20 @@
                     </tr>
                     <?php }
                     if ((isset($_SESSION['usuario'])) && (!empty($_SESSION['usuario']))){ 
+                        $nomUsuarioLoggeado = $_SESSION['usuario'];
+                        $query = "SELECT * FROM usuarios WHERE nombreusuario='$nomUsuarioLoggeado'";
+                        $resultm=mysqli_query($link,$query);
+                        $usuarioLog=mysqli_fetch_array($resultm);
+                        $idusuario=$usuarioLog['id'];
+                        $resulth=mysqli_query($link, "SELECT * FROM comentarios WHERE usuarios_id=$idusuario AND peliculas_id=$id");
+                        $hayComentario=mysqli_num_rows($resulth);
+                        echo $hayComentario;
+                        if($hayComentario==1){
+                           echo '<div class="alert alert-warning">Ya has comentado esta película.</div>';
+                        }
+                        else{
                     ?>	
+                        
                         <tr>
                             <td>
                                 <h4 class="comentarios">Agregar un comentario</h4>
@@ -115,11 +131,14 @@
                                         <input id="radio10" type="radio" name="estrellas" value="1" required>
                                         <label for="radio10">★</label>
                                     </p>
-                                   
+                                   <input id="idU" type="hidden" name="idU" value="<?php echo $idusuario ?>">
                                 </form>
                             </td>
                         </tr>
-                    <?php } ?>
+                    <?php 
+                        }
+                    } 
+                    ?>
                 </table>
         </div>
 	</body>
