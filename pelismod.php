@@ -5,12 +5,7 @@
 		<link href="css/bootstrap.min.css" rel="stylesheet">
 		<link type="text/css" rel="stylesheet" href="style.css">
 	<?php include ("menuinicio.php"); 
-        include ("connect.php");
-        include ("promedio.php");
-        $link = conectar();
-
-        $resultp = mysqli_query($link, "SELECT * FROM peliculas");
-        $cantpelis = mysqli_num_rows($resultp);
+       
 
         function truncar($texto, $limite, $terminacion = '...') {
         $subcadena = substr($texto, 0, $limite);
@@ -18,59 +13,34 @@
         return substr($texto, 0, $indiceUltimoEspacio).$terminacion;
         }
     ?>
-    <script type="text/javascript">
-          function editno2(i){
-            var ok = document.getElementById("okboton" + i);
-            var edito = document.getElementById("editarboton" + i);
-            ok.style.display='none';
-            edito.style.display='block';
-
-            }
-
-            function eliminar(id) {
-                if (window.confirm("Aviso:\n Desea eliminar el registro seleccionado?")) {
-                    window.location = "delete.php?action=del&tabla=peliculas&id="+id;  
-                }
-            }
-
-        function editar(i){
-            var ok = document.getElementById("okboton" + i);
-            var edito = document.getElementById("editarboton" + i);
-            var nombinp = document.getElementById("nombre"+i);
-            var sinoinp = document.getElementById("sinopsis"+i);
-            var anioinp= document.getElementById('anio'+i);
-            var geninp= document.getElementById('genero'+i);
-            geninp.style.display='block';
-            anioinp.style.display='block';
-            sinoinp.style.display='block';
-            nombinp.style.display='block';
-            ok.style.display='block';
-            edito.style.display='none';
-            document.getElementById('divgen'+i).style.display='none';
-            document.getElementById('divanio'+i).style.display='none';
-            document.getElementById('editablenom'+i).style.display='none';
-            document.getElementById('divsinopsis'+i).style.display='none';
-            
-        }
-
-
-        function MostrarOcultar(id){
-            var puntoContraible = document.getElementById("punto"+id);
-            var puntoCorto = document.getElementById("puntoCorto" + id);
-
-            if (puntoContraible.style.display == 'none'){ 
-                puntoContraible.style.display = 'block'; 
-                puntoCorto.style.display = 'none'; 
-            }else{ 
-                puntoContraible.style.display = 'none'; 
-                puntoCorto.style.display = 'block'; 
-            } 
-            }
-        </script>
-
-
+  <script type="text/javascript" src="FuncionesJavaScript.js"></script>
 	</head>
+
+<?php 
+
+
+
+
+
+if(isset($_SESSION['tipoUsuario']) && ($_SESSION['tipoUsuario'] == 'admin'))
+    { ?>
 	<body>
+
+<?php 
+ include ("promedio.php");
+        include ("connect.php");
+        $link = conectar();
+
+        include ("add.php");
+        include("edit.php");
+        include("cambiarimagen.php");
+        $resultp = mysqli_query($link, "SELECT * FROM peliculas");
+        $cantpelis = mysqli_num_rows($resultp);
+
+
+?>
+
+
         <div class="panelcomen">
         <h1 class="titulo1">
             Peliculas
@@ -103,14 +73,14 @@
                     echo "<div>";
                     echo '<img class="imagenpeli" src="data:image/jpeg;base64,'.base64_encode($row['contenidoimagen']) .'" />';
                     echo "</div>"; ?>
-                    <form action="cambiarimagen.php" enctype="multipart/form-data" method="post">
+                    <form name=formimagen1 onsubmit ="return validoimage()" enctype="multipart/form-data" method="post">
                       <input class="imagen1234" id="imagen" name="imagen" size="30" type="file" />
                     <?php  echo "<input type='hidden'  value='".$row['id']."' name='idpeli2'>";  ?>
-                      <input type="submit" value="Subir imagen" />
-
+                      
+                        <button  type="submit" name="suboimage" class="btn btn-danger">Subir imagen</button>
                     </form>
                 </td>
-          <form method="POST" action="edit.php">    
+          <form method="POST" onsubmit="return validar33(this)">    
                 <td width="100"> 
 
                 <?php 
@@ -177,7 +147,7 @@
                     ?>
                    
 
-                   <?php echo "<button style='display:none' id='okboton".$i."' type='submit' class='btn btn-danger search' onclick='editno2(".'"'.$i.'"'.")' >Guardar</button>";
+                   <?php echo "<button style='display:none' name= 'editopeli' id='okboton".$i."' type='submit' class='btn btn-danger search' onclick='editno2(".'"'.$i.'"'.")' >Guardar</button>";
                     ?>
                    
                     </form>
@@ -190,8 +160,9 @@
             </tr>
         <?php }
         ?>
-  
-            <form class="form-inline" method="POST" enctype="multipart/form-data" action="add.php">
+
+            <form id="formagrego" class="form-inline" method="POST" enctype="multipart/form-data"  onsubmit="return validar22(this)">
+            
             <tr>
                 <td>
                 </td>
@@ -203,7 +174,7 @@
                    
                 </td>
                 <td >
-                    <textarea name='ingresosinop' placeholder="Sinopsis pelicula" class='inputsinop' required> </textarea>
+                    <textarea name='ingresosinop' placeholder="Sinopsis pelicula" class='inputsinop'></textarea>
                 </td>
                 <td>
                     
@@ -212,12 +183,12 @@
                     <input type="text" class="form-control" id="Inputanio" name="ingresoanio"  placeholder="Año" required>
                      <?php
 
-                        echo  "<select name='inputgen' id='inputgena' >";
+                        echo  "<select name='inputgen'  id='inputgena' >";
                         
                                     $resultgeneros = mysqli_query($link, "SELECT * FROM generos"); 
                                     $cantGeneros = mysqli_num_rows($resultgeneros);
                                      
-                                        echo "<option value='todas' >Generos</option>";
+                                        echo "<option value='vacio' >Generos</option>";
                                         for($k=1; $k<= $cantGeneros ; $k++ ){
                                             $rowGen = mysqli_fetch_array($resultgeneros);
                                             $generoR = $rowGen['genero'];
@@ -229,10 +200,12 @@
                                         
 
                          ?>
+                         
                          </select>
                 </td>
                 <td>
-                    <button  type="submit" class="btn btn-danger">Agregar pelicula</button>
+                    <button  type="submit" name="savepeli" class="btn btn-danger">Agregar pelicula</button>
+                    <span id="insertHere2"></span>
                     </form>
                 </td>
             </tr>
@@ -240,4 +213,7 @@
         </table>
               
 	</body>
+    <?php } 
+    else 
+        echo " <h1> DEBE SER ADMIN PARA ADMINISTRAR LAS PELICULAS </h1>" ?>
 </html>
