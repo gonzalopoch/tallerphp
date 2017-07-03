@@ -3,6 +3,7 @@ require_once("connect.php");
 $link=conectar();
 if(isset($_POST['savepeli'])){
 		$agregar = true;
+	if(!empty($_POST['ingresonombre']) && !empty($_POST['ingresosinop']) && !empty( $_POST['ingresoanio']) && !empty($_POST['inputgen'] ) && ($_POST['inputgen'] <>"vacio") &&!empty($_FILES["imagen2"]["name"]) && ($_POST['ingresosinop']<>"")){
 
 		$nombre = $_POST['ingresonombre'];
 		$CompararNombre = mysqli_query($link, "SELECT * FROM peliculas WHERE nombre LIKE '$nombre'");
