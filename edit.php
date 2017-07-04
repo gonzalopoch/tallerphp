@@ -37,7 +37,7 @@ if(isset($_POST['editopeli'])){
 
 			if($agregar){
 
-				$sql = "UPDATE peusuariologgeadoliculas SET nombre='$nombre', sinopsis='$sinop',anio='$anio', generos_id='$genid'  WHERE id='$idold' ";
+				$sql = "UPDATE peliculas SET nombre='$nombre', sinopsis='$sinop',anio='$anio', generos_id='$genid'  WHERE id='$idold' ";
 				mysqli_query($link,$sql);
 				$str = '<div class="alert alert-success">Se ha editado correctamente la película con el nombre "';
 				$str = $str . "$nombre";
