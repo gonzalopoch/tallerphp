@@ -48,146 +48,148 @@
             }
        
  function validar22(f) {
-            var vacios=false;
-            var ok = true;
-            var msg1 = "";
-            var msg0 = "";
-            var num = /^[0-9]+$/;
-            var validaanio= "";
-            var validasinop= "";
-            var validanombre= "";
+  var vacios=false;
+  var ok = true;
+  var msg1 = "";
+  var msg0 = "";
+  var num = /^[0-9]+$/;
+  var validaanio= "";
+  var validasinop= "";
+  var validanombre= "";
 
-            if(f.ingresosinop.value == "")
-             {
-                  msg1 += "Campo sinopsis. ";
-                 vacios = true;
-             }
-             if (f.ingresoanio.value == "")
-                  {
-                  msg1 += "Campo anio. ";
-                 vacios = true;
-             }
-              if (f.ingresonombre.value == "")
-                  {
-                  msg1 += "Campo nombre. ";
-                 vacios = true;
-             }
-             if(f.inputgen.value=="vacio"){
-                msg1+= "Campo Genero . "
-                vacios=true;
-             }
-            if (vacios == true){
-                msg0 = "Debes completar los siguientes campos: ";
-                ok = false;
-                }
+  if(f.ingresosinop.value == ""){
+    msg1 += "Campo sinopsis. ";
+    vacios = true;
+  }
+  if (f.ingresoanio.value == ""){
+    msg1 += "Campo año. ";
+    vacios = true;
+  }
+  if (f.ingresonombre.value == ""){
+    msg1 += "Campo nombre. ";
+    vacios = true;
+  }
+  if(f.inputgen.value=="vacio"){
+    msg1+= "Campo Genero . ";
+    vacios=true;
+  }
+  if (vacios == true){
+    msg0 = "Debes completar los siguientes campos: ";
+    ok = false;
+  }
 
-            if ((!f.ingresoanio.value.match(num)) || (f.ingresoanio.value.length!=4)){
-                
-                validaanio= "Debe ingresar un numero de 4 digitos en el anio.";
-                ok=false;
-               }
-            if(f.ingresosinop.value.length > 255){
-                validasinop= " Debe ingresar 255 caracteres en la sinopsis como maximo.";
-                ok=false;
-            }
-            if(f.ingresonombre.value.length > 255){
-                validanombre= " Debe ingresar 255 cacracteres en el nombre como maximo.";
-                ok=false;
-            }
-            if(!validarimagen("formagrego","imagen2"))
-            {
-              msg1="Verifica el formato de tu IMAGEN"
-              ok=false;
-            }
-             if(ok == false){
-              // var mensajeError = document.getElementById('insertHere2');
-               alert(msg0 + msg1 + validaanio + validasinop + validanombre);
-              // mensajeError.innerHTML ='<div class="alert alert-danger">' + msg0 + msg1 + validaanio + validasinop + validanombre '</div>';
-          }
+  if ((!f.ingresoanio.value.match(num)) || (f.ingresoanio.value.length!=4)){
+    validaanio= "Debe ingresar un numero de 4 digitos en el año.";
+    ok=false;
+  }
+  
+  if(f.ingresosinop.value.length > 850){
+    validasinop= " Debe ingresar 850 caracteres en la sinopsis como máximo.";
+    ok=false;
+  }
+  
+  if(f.ingresonombre.value.length > 255){
+    validanombre= " Debe ingresar 255 cacracteres en el nombre como máximo.";
+    ok=false;
+  }
+  
+  if(!validarimagen("formagrego","imagen2")){
+    msg1="Verifica el formato de tu IMAGEN";
+    ok=false;
+  }
+  
+  if(ok == false){
+    // var mensajeError = document.getElementById('insertHere2');
+    alert(msg0 + msg1 + validaanio + validasinop + validanombre);
+    // mensajeError.innerHTML ='<div class="alert alert-danger">' + msg0 + msg1 + validaanio + validasinop + validanombre '</div>';
+  }
 
-        return ok;
-        }
+return ok;
+}
 
 
  function validar33(f) {
-            var vacios=false;
-            var ok = true;
-            var msg1 = "";
-            var msg0 = "";
-            var num = /^[0-9]+$/;
-            var validaanio= "";
-            var validasinop= "";
-            var validanombre= "";
+  var vacios=false;
+  var ok = true;
+  var msg1 = "";
+  var msg0 = "";
+  var num = /^[0-9]+$/;
+  var validaanio= "";
+  var validasinop= "";
+  var validanombre= "";
 
-            if(f.sinopsisnueva.value == "")
-             {
-                  msg1 += "Campo sinopsis. ";
-                 vacios = true;
-             }
-             if (f.anionuevo.value == "")
-                  {
-                  msg1 += "Campo anio. ";
-                 vacios = true;
-             }
-              if (f.nombrenuevo.value == "")
-                  {
-                  msg1 += "Campo nombre. ";
-                 vacios = true;
-             }
-             if(f.gennue.value==""){
-                msg1+= "Campo Genero . "
-                vacios=true;
-             }
-            if (vacios == true){
-                msg0 = "Debes completar los siguientes campos: ";
-                ok = false;
-                }
+  if(f.sinopsisnueva.value == ""){
+    msg1 += "Campo sinopsis. ";
+    vacios = true;
+  }
+   
+  if (f.anionuevo.value == ""){
+    msg1 += "Campo año. ";
+    vacios = true;
+  }
+  
+  if (f.nombrenuevo.value == ""){
+    msg1 += "Campo nombre. ";
+    vacios = true;
+  }
+  
+  if(f.gennue.value==""){
+    msg1+= "Campo Genero. ";
+    vacios=true;
+  }
+  
+  if (vacios == true){
+    msg0 = "Debes completar los siguientes campos: ";
+    ok = false;
+  }
 
-            if ((!f.anionuevo.value.match(num)) || (f.anionuevo.value.length!=4)){
-                
-                validaanio= "Debe ingresar un numero de 4 digitos en el anio.";
-                ok=false;
-               }
-            if(f.sinopsisnueva.value.length > 255){
-                validasinop= " Debe ingresar 255 caracteres en la sinopsis como maximo.";
-                ok=false;
-            }
-            if(f.nombrenuevo.value.length > 255){
-                validanombre= " Debe ingresar 255 cacracteres en el nombre como maximo.";
-                ok=false;
-            }
-             if(ok == false){
-              // var mensajeError = document.getElementById('insertHere2');
-               alert(msg0 + msg1 + validaanio + validasinop + validanombre);
-              // mensajeError.innerHTML ='<div class="alert alert-danger">' + msg0 + msg1 + validaanio + validasinop + validanombre '</div>';
-          }
+  if ((!f.anionuevo.value.match(num)) || (f.anionuevo.value.length!=4)){  
+    validaanio= "Debe ingresar un numero de 4 digitos en el año.";
+    ok=false;
+  }
+  
+  if(f.sinopsisnueva.value.length > 850){
+    validasinop= " Debe ingresar 850 caracteres en la sinopsis como maximo.";
+    ok=false;
+  }
+  
+  if(f.nombrenuevo.value.length > 255){
+    validanombre= " Debe ingresar 255 cacracteres en el nombre como maximo.";
+    ok=false;
+  }
+  if(ok == false){
+    // var mensajeError = document.getElementById('insertHere2');
+    alert(msg0 + msg1 + validaanio + validasinop + validanombre);
+    // mensajeError.innerHTML ='<div class="alert alert-danger">' + msg0 + msg1 + validaanio + validasinop + validanombre '</div>';
+  }
 
-        return ok;
-        }
-    function validarimagen(nom,j){
-    var OK = true;
-    var frm = document.forms[nom];
-    var f = frm.elements[j];
-    if( !f.value.match(/.(jpg)|(png)|(jpeg)$/) ){
-        //document.getElementById("msg").innerHTML = "Extension debe ser jpg, jpeg, gif o png";
-        OK = false;
-    }
-    return OK;
+  return ok;
 }
+
+function validarimagen(nom,j){
+  var OK = true;
+  var frm = document.forms[nom];
+  var f = frm.elements[j];
+  if(!f.value.match(/.(jpg)|(png)|(jpeg)$/) ){
+    //document.getElementById("msg").innerHTML = "Extension debe ser jpg, jpeg, gif o png";
+    OK = false;
+  }
+  return OK;
+}
+
 function validoimage(){
   formimagen1
-    var OK = true;
-    var frm = document.forms["formimagen1"];
-    var f = frm.elements["imagen"];
-    if(f.value==""){
-      alert("Seleccione una imagen");
-    }
-    else {
-        if( !f.value.match(/.(jpg)|(png)|(jpeg)$/) ){
-        alert("Extension incorrecta de imagen.");
-        OK = false;
+  var OK = true;
+  var frm = document.forms["formimagen1"];
+  var f = frm.elements["imagen"];
+  if(f.value==""){
+    alert("Seleccione una imagen");
+  }
+  else {
+    if( !f.value.match(/.(jpg)|(png)|(jpeg)$/) ){
+      alert("Extension incorrecta de imagen.");
+      OK = false;
     }
   }
-    return OK;
-
+  return OK;
 }

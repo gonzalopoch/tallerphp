@@ -13,20 +13,20 @@ if(isset($_POST['savepeli'])){
 		$idgen= $_POST['inputgen'];
 
 		if(strlen($nombre)>255){
-				$str = '<div class="alert alert-danger"> El nombre no debe contener mas de 255 caracteres. .</div> "';
+				$str = '<div class="alert alert-danger"> El nombre no debe contener más de 255 caracteres. </div> "';
 				echo "$str";
 				$agregar = false;
 			}
 
-			if(strlen($sinop)>255){
-				$str = '<div class="alert alert-danger"> La sinopsis no debe contener mas de 255 caracteres. .</div> "';
+			if(strlen($sinop)>850){
+				$str = '<div class="alert alert-danger"> La sinopsis no debe contener más de 850 caracteres. </div> "';
 				echo "$str";
 				$agregar = false;
 			}
 
 		//SE COMPRUEBA QUE EL NOMBRE DE USUARIO NO EXISTA EN LA BD
 			if ($ExisteNombre > 0){
-				$str = '<div class="alert alert-danger">Ya existe una pelicula con el nombre: "';
+				$str = '<div class="alert alert-danger">Ya existe una película con el nombre: "';
 				$str = $str . "$nombre";
 				$str = $str . '" </div>';
 				echo "$str";
@@ -35,7 +35,7 @@ if(isset($_POST['savepeli'])){
 
 		// Compruebo que el año sea un numero y sea de logitud 4
 			if(!ctype_digit($anio)||strlen($anio)<>4){
-				$str = '<div class="alert alert-danger">El anio debe ser un numero de 4 digitos .</div> "';
+				$str = '<div class="alert alert-danger">El año debe ser un número de 4 dígitos .</div> "';
 				echo "$str";
 				$agregar = false;
 			}
@@ -52,7 +52,7 @@ if(isset($_POST['savepeli'])){
 		$binario_tipo=$_FILES['imagen2']['type'];
 }
 else{
-	 $str = '<div class="alert alert-danger">formato de imagen no permitido .</div> "';
+	 $str = '<div class="alert alert-danger">Formato de imagen no permitido. </div> "';
 				echo "$str";
 				$agregar=false;
 }
@@ -62,7 +62,7 @@ else{
 
 				$sql = "INSERT INTO peliculas (nombre,sinopsis,anio,generos_id,contenidoimagen) VALUES ('$nombre','$sinop','$anio','$idgen','$binario_contenido') ";
 				mysqli_query($link,$sql);
-				$str = '<div class="alert alert-success">Se ha agregado una nueva pelicula con el nombre "';
+				$str = '<div class="alert alert-success">Se ha agregado una nueva película con el nombre "';
 				$str = $str . "$nombre";
 				$str = $str . '". </div>';
 				echo "$str";

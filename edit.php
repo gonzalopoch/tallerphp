@@ -21,8 +21,8 @@ if(isset($_POST['editopeli'])){
 						$agregar = false;
 					}
 
-			if(strlen($sinop)>255){
-				$str = '<div class="alert alert-danger"> La sinopsis no debe contener mas de 255 caracteres. .</div> "';
+			if(strlen($sinop)>850){
+				$str = '<div class="alert alert-danger"> La sinopsis no debe contener mas de 850 caracteres. .</div> "';
 				echo "$str";
 				$agregar = false;
 			}
@@ -30,16 +30,16 @@ if(isset($_POST['editopeli'])){
 
 		// Compruebo que el año sea un numero y sea de logitud 4
 			if(!ctype_digit($anio)||strlen($anio)<>4){
-				$str = '<div class="alert alert-danger">El anio debe ser un numero de 4 digitos .</div> "';
+				$str = '<div class="alert alert-danger">El año debe ser un número de 4 dígitos .</div> "';
 				echo "$str";
 				$agregar = false;
 			}
 
 			if($agregar){
 
-				$sql = "UPDATE peliculas SET nombre='$nombre', sinopsis='$sinop',anio='$anio', generos_id='$genid'  WHERE id='$idold' ";
+				$sql = "UPDATE peusuariologgeadoliculas SET nombre='$nombre', sinopsis='$sinop',anio='$anio', generos_id='$genid'  WHERE id='$idold' ";
 				mysqli_query($link,$sql);
-				$str = '<div class="alert alert-success">Se ha agregado una nueva pelicula con el nombre "';
+				$str = '<div class="alert alert-success">Se ha editado correctamente la película con el nombre "';
 				$str = $str . "$nombre";
 				$str = $str . '". </div>';
 				echo "$str";
